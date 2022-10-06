@@ -2,6 +2,10 @@
   "name": "oreos",
   "version": "0.1.0",
   "description": "Ironfish provider",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hairtail/oreos.git"
+  },
   "main": "index.js",
   "scripts": {},
   "private": false,

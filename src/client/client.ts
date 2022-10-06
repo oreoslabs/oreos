@@ -14,9 +14,12 @@ export abstract class RpcClient {
     this.messageBuffer = '';
   }
 
-  protected abstract send(route: string, data: unknown): Promise<SocketRpcServerResponse>;
-
   getMessageId() {
     return Math.floor(Math.random() * 2 ** 32);
   }
+
+  protected abstract send(
+    route: string,
+    data: unknown,
+  ): Promise<SocketRpcServerResponse>;
 }

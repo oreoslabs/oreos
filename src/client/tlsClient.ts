@@ -1,8 +1,5 @@
 import { RpcTcpClient } from './tcpClient';
-import {
-  SocketRpcClient,
-  MESSAGE_DELIMITER,
-} from '../interface';
+import { SocketRpcClient, MESSAGE_DELIMITER } from '../interface';
 import * as tls from 'tls';
 
 export class RpcTlsClient extends RpcTcpClient {
@@ -36,7 +33,12 @@ export class RpcTlsClient extends RpcTcpClient {
         rejectUnauthorized: false,
       };
 
-      const client = tls.connect(this.port, this.host, options, onSecureConnect);
+      const client = tls.connect(
+        this.port,
+        this.host,
+        options,
+        onSecureConnect,
+      );
       client.on('error', onError);
       client.on('data', onData);
     });

@@ -57,10 +57,7 @@ export class RpcTcpClient extends RpcClient {
       },
     };
     const response = await this.request(message);
-    const {
-      result,
-      error,
-    } = await YupUtils.tryValidate(
+    const { result, error } = await YupUtils.tryValidate(
       SocketRpcServerSchema,
       JSON.parse(response.substring(0, response.length - 1)),
     );

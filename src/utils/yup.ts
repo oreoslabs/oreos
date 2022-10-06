@@ -3,21 +3,28 @@ import * as yup from 'yup';
 export type UnwrapPromise<T> = T extends Promise<infer U>
   ? U
   : T extends (...args: unknown[]) => Promise<infer U>
-    ? U
-    : T extends (...args: unknown[]) => infer U
-      ? U
-      : T;
+  ? U
+  : T extends (...args: unknown[]) => infer U
+  ? U
+  : T;
 
-export type YupSchema<Result = unknown, Context = unknown> = yup.Schema<Result, Context>;
+export type YupSchema<Result = unknown, Context = unknown> = yup.Schema<
+  Result,
+  Context
+>;
 
-export type YupSchemaResult<S extends yup.Schema<unknown, unknown>> = UnwrapPromise<ReturnType<S['validate']>>;
+export type YupSchemaResult<S extends yup.Schema<unknown, unknown>> =
+  UnwrapPromise<ReturnType<S['validate']>>;
 
 export class YupUtils {
   static async tryValidate<S extends YupSchema>(
     schema: S,
     value: unknown,
     options?: yup.ValidateOptions<unknown>,
-  ): Promise<{ result: YupSchemaResult<S>; error: null } | { result: null; error: yup.ValidationError }> {
+  ): Promise<
+    | { result: YupSchemaResult<S>; error: null }
+    | { result: null; error: yup.ValidationError }
+  > {
     if (!options) {
       options = { stripUnknown: true };
     }

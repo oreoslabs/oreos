@@ -4,8 +4,8 @@
   "description": "Ironfish provider",
   "main": "index.js",
   "scripts": {},
-  "private": true,
-  "author": "@lovedret",
+  "private": false,
+  "author": "@oreos",
   "dependencies": {
     "yup": "0.29.3"
   },

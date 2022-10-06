@@ -18,8 +18,12 @@ export class RpcTlsClient extends RpcTcpClient {
         client.off('secureConnection', onSecureConnect);
         client.off('error', onError);
 
-        resolve(dataBuffer.toString('utf-8'));
-        client.end();
+        this.messageBuffer += dataBuffer.toString('utf-8');
+        if (this.messageBuffer.lastIndexOf(MESSAGE_DELIMITER) !== -1) {
+          resolve(this.messageBuffer);
+          client.end();
+          this.messageBuffer = '';
+        }
       };
 
       const onError = (error: unknown) => {

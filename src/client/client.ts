@@ -5,10 +5,13 @@ export abstract class RpcClient {
   readonly port: number;
   readonly auth: string | undefined;
 
+  protected messageBuffer: string;
+
   constructor(host: string, port: number, auth?: string) {
     this.host = host;
     this.port = port;
     this.auth = auth;
+    this.messageBuffer = '';
   }
 
   protected abstract send(route: string, data: unknown): Promise<SocketRpcServerResponse>;

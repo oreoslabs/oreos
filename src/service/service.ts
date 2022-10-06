@@ -7,7 +7,9 @@ import {
   GetFeesRequest,
   GetAccountTransactionRequest,
   SendTransactionRequest,
+  SocketRpcResponseSchema,
 } from '../interface';
+import { YupUtils } from '../utils/yup';
 
 export enum RpcServiceProtocol {
   tcp = 'TCP',
@@ -46,34 +48,48 @@ export class RpcService {
   }
 
   async getBalance(getBalanceRequest: GetBalanceRequest) {
-    return await this.client.send('account/getBalance', getBalanceRequest);
+    return await this.request('account/getBalance', getBalanceRequest);
   }
 
   async getTransaction(getTransactionRequest: GetAccountTransactionRequest) {
-    return await this.client.send('account/getAccountTransaction', getTransactionRequest);
+    return await this.request('account/getAccountTransaction', getTransactionRequest);
   }
 
   async getBlock(getBlockRequest: GetBlockRequest) {
-    return await this.client.send('chain/getBlock', getBlockRequest);
+    return await this.request('chain/getBlock', getBlockRequest);
   }
 
   async getBlockInfo(getBlockInfoRequest: GetBlockInfoRequest) {
-    return await this.client.send('chain/getBlockInfo', getBlockInfoRequest);
+    return await this.request('chain/getBlockInfo', getBlockInfoRequest);
   }
 
   async getChainInfo(getChainInfoRequest: GetChainInfoRequest) {
-    return await this.client.send('chain/getChainInfo', getChainInfoRequest);
+    return await this.request('chain/getChainInfo', getChainInfoRequest);
   }
 
   async getFees(getFeeRequest: GetFeesRequest) {
-    return await this.client.send('fees/getFees', getFeeRequest);
+    return await this.request('fees/getFees', getFeeRequest);
   }
 
   async getStatus() {
-    return await this.client.send('node/getStatus', undefined);
+    return await this.request('node/getStatus', undefined);
   }
 
   async sendTransaction(transaction: SendTransactionRequest) {
-    return await this.client.send('transaction/sendTransaction', transaction);
+    return await this.request('transaction/sendTransaction', transaction);
+  }
+
+  async request<T>(method: string, params: T) {
+    const response = await this.client.send(method, params);
+    if (response.result) {
+      const { result, error } = await YupUtils.tryValidate(SocketRpcResponseSchema, response.result.data);
+      if (result) {
+        return result.data;
+      } else {
+        return error;
+      }
+    } else {
+      return response.error;
+    }
   }
 }

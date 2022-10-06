@@ -1,3 +1,5 @@
+import { SocketRpcServerResponse } from '../interface';
+
 export abstract class RpcClient {
   readonly host: string;
   readonly port: number;
@@ -9,7 +11,7 @@ export abstract class RpcClient {
     this.auth = auth;
   }
 
-  protected abstract send(route: string, data: unknown): any;
+  protected abstract send(route: string, data: unknown): Promise<SocketRpcServerResponse>;
 
   getMessageId() {
     return Math.floor(Math.random() * 2 ** 32);

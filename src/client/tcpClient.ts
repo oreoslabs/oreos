@@ -3,9 +3,9 @@ import { YupUtils } from '../utils/yup';
 import { RpcClient } from './client';
 import {
   SocketRpcClient,
-  SocketRpcServer,
-  SocketRpcServerSchema,
   MESSAGE_DELIMITER,
+  SocketRpcServerResponse,
+  SocketRpcServerSchema,
 } from '../interface';
 
 export class RpcTcpClient extends RpcClient {
@@ -13,7 +13,7 @@ export class RpcTcpClient extends RpcClient {
     super(host, port, auth);
   }
 
-  async request(message: SocketRpcClient) {
+  async request(message: SocketRpcClient): Promise<string> {
     return new Promise((resolve, reject): void => {
       const onConnect = () => {
         client.off('connect', onConnect);
@@ -25,21 +25,8 @@ export class RpcTcpClient extends RpcClient {
         client.off('connect', onConnect);
         client.off('error', onError);
 
-        const received = dataBuffer.toString('utf-8');
-        const {
-          result,
-          error,
-        } = await YupUtils.tryValidate(
-          SocketRpcServerSchema,
-          JSON.parse(received.substring(0, received.length - 1)),
-        );
-        if (!result) {
-          reject(error);
-        } else {
-          const { data }: SocketRpcServer = result;
-          client.end();
-          resolve(data);
-        }
+        resolve(dataBuffer.toString('utf-8'));
+        client.end();
       };
 
       const onError = (error: unknown) => {
@@ -55,7 +42,7 @@ export class RpcTcpClient extends RpcClient {
     });
   }
 
-  async send(route: string, data: unknown) {
+  async send(route: string, data: unknown): Promise<SocketRpcServerResponse> {
     const message: SocketRpcClient = {
       type: 'message',
       data: {
@@ -65,6 +52,17 @@ export class RpcTcpClient extends RpcClient {
         data,
       },
     };
-    return await this.request(message);
+    const response = await this.request(message);
+    const {
+      result,
+      error,
+    } = await YupUtils.tryValidate(
+      SocketRpcServerSchema,
+      JSON.parse(response.substring(0, response.length - 1)),
+    );
+    return {
+      result,
+      error,
+    };
   }
 }

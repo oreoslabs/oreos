@@ -14,6 +14,11 @@ export type SocketRpcRequest = {
   data: unknown | undefined;
 };
 
+export type SocketRpcServerResponse= {
+  result?: SocketRpcServer | null | undefined;
+  error?: yup.ValidationError | null | undefined;
+};
+
 export type SocketRpcServer = {
   type: 'message' | 'malformedRequest' | 'error' | 'stream';
   data: SocketRpcResponse | SocketRpcError | SocketRpcStream;

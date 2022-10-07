@@ -14,7 +14,7 @@ import { YupUtils } from '../utils/yup';
 export enum RpcServiceProtocol {
   tcp = 'TCP',
   tls = 'TLS',
-  http = 'HTTP'
+  http = 'HTTP',
 }
 
 export class RpcService {
@@ -52,7 +52,10 @@ export class RpcService {
   }
 
   async getTransaction(getTransactionRequest: GetAccountTransactionRequest) {
-    return await this.request('account/getAccountTransaction', getTransactionRequest);
+    return await this.request(
+      'account/getAccountTransaction',
+      getTransactionRequest,
+    );
   }
 
   async getBlock(getBlockRequest: GetBlockRequest) {
@@ -82,7 +85,10 @@ export class RpcService {
   async request<T>(method: string, params: T) {
     const response = await this.client.send(method, params);
     if (response.result) {
-      const { result, error } = await YupUtils.tryValidate(SocketRpcResponseSchema, response.result.data);
+      const { result, error } = await YupUtils.tryValidate(
+        SocketRpcResponseSchema,
+        response.result.data,
+      );
       if (result) {
         return result.data;
       } else {

@@ -9,11 +9,14 @@
     "alwaysStrict": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "target": "ESNEXT",
+    "target": "ES6",
     "sourceMap": true,
     "incremental": true,
-    "outDir": "./dist",
+    "outDir": "./lib",
     "baseUrl": "./",
-    "allowJs": true
-  }
+    "allowJs": true,
+    "lib": ["ES6"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

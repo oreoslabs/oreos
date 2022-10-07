@@ -6,10 +6,14 @@
     "type": "git",
     "url": "git+https://github.com/hairtail/oreos.git"
   },
-  "main": "index.js",
-  "scripts": {},
   "private": false,
   "author": "@oreos",
+  "main": "lib/index.js",
+  "files": ["lib/**/*"],
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write 'src/**/*.ts'"
+  },
   "dependencies": {
     "yup": "0.29.3"
   },

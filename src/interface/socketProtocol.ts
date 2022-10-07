@@ -14,7 +14,7 @@ export type SocketRpcRequest = {
   data: unknown | undefined;
 };
 
-export type SocketRpcServerResponse= {
+export type SocketRpcServerResponse = {
   result?: SocketRpcServer | null | undefined;
   error?: yup.ValidationError | null | undefined;
 };
@@ -43,20 +43,13 @@ export type SocketRpcError = {
 
 export const SocketRpcClientSchema: yup.ObjectSchema<SocketRpcClient> = yup
   .object({
-    type: yup.string()
-      .oneOf(['message'])
-      .required(),
+    type: yup.string().oneOf(['message']).required(),
     data: yup
       .object({
-        mid: yup.number()
-          .required(),
-        type: yup.string()
-          .required(),
-        auth: yup.string()
-          .nullable()
-          .notRequired(),
-        data: yup.mixed()
-          .notRequired(),
+        mid: yup.number().required(),
+        type: yup.string().required(),
+        auth: yup.string().nullable().notRequired(),
+        data: yup.mixed().notRequired(),
       })
       .required(),
   })
@@ -64,46 +57,37 @@ export const SocketRpcClientSchema: yup.ObjectSchema<SocketRpcClient> = yup
 
 export const SocketRpcServerSchema: yup.ObjectSchema<SocketRpcServer> = yup
   .object({
-    type: yup.string()
+    type: yup
+      .string()
       .oneOf(['message', 'malformedRequest', 'error', 'stream'])
       .required(),
-    data: yup.mixed<SocketRpcResponse | SocketRpcError | SocketRpcStream>()
+    data: yup
+      .mixed<SocketRpcResponse | SocketRpcError | SocketRpcStream>()
       .required(),
   })
   .required();
 
 export const SocketRpcErrorSchema: yup.ObjectSchema<SocketRpcError> = yup
   .object({
-    code: yup.string()
-      .defined(),
-    message: yup.string()
-      .defined(),
-    stack: yup.string()
-      .notRequired(),
+    code: yup.string().defined(),
+    message: yup.string().defined(),
+    stack: yup.string().notRequired(),
   })
   .defined();
 
 export const SocketRpcRequestSchema: yup.ObjectSchema<SocketRpcRequest> = yup
   .object({
-    mid: yup.number()
-      .required(),
-    type: yup.string()
-      .required(),
-    auth: yup.string()
-      .nullable()
-      .notRequired(),
-    data: yup.mixed()
-      .notRequired(),
+    mid: yup.number().required(),
+    type: yup.string().required(),
+    auth: yup.string().nullable().notRequired(),
+    data: yup.mixed().notRequired(),
   })
   .required();
 
 export const SocketRpcResponseSchema: yup.ObjectSchema<SocketRpcResponse> = yup
   .object({
-    id: yup.number()
-      .defined(),
-    status: yup.number()
-      .defined(),
-    data: yup.mixed()
-      .notRequired(),
+    id: yup.number().defined(),
+    status: yup.number().defined(),
+    data: yup.mixed().notRequired(),
   })
   .defined();

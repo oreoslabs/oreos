@@ -1,5 +1,5 @@
 import * as net from 'net';
-import { YupUtils } from '../utils/yup';
+import { YupUtils } from '../../utils';
 import { RpcClient } from './client';
 import {
   SocketRpcClient,

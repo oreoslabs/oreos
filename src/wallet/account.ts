@@ -1,5 +1,5 @@
 import { generateKey } from '@ironfish/rust-nodejs';
-import { validateAccount } from './validator';
+import { validateAccount } from './accountValidator';
 
 class Account {
   name: string;

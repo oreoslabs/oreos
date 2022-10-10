@@ -1,7 +1,7 @@
 import { generateKey } from '@ironfish/rust-nodejs';
 import { validateAccount } from './accountValidator';
 
-class Account {
+export class Account {
   name: string;
   readonly spendingKey: string;
   readonly incomingViewKey: string;
@@ -23,7 +23,7 @@ class Account {
   }
 }
 
-function createAccount(name: string): Account {
+export function createAccount(name: string): Account {
   const key = generateKey();
   return new Account(
     name,
@@ -34,7 +34,7 @@ function createAccount(name: string): Account {
   );
 }
 
-function importAccount(toImport: {
+export function importAccount(toImport: {
   name: string;
   spendingKey: string;
   incomingViewKey: string;
@@ -50,5 +50,3 @@ function importAccount(toImport: {
     toImport.publicAddress,
   );
 }
-
-export const Wallet = { Account, createAccount, importAccount };

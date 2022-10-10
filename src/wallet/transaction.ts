@@ -23,11 +23,9 @@ export class Transaction {
   decryptNotesForOwner(ownerHexKey: string): Note[] {
     const result: Note[] = [];
     this.notesEncrypted.map(noteToDecrypt => {
-      const note = noteToDecrypt
-        .takeReference()
-        .decryptNoteForOwner(ownerHexKey);
+      const note = noteToDecrypt.decryptNoteForOwner(ownerHexKey);
       if (note) {
-        result.push(new Note(note));
+        result.push(note);
       }
     });
     return result;
@@ -36,11 +34,9 @@ export class Transaction {
   decryptNotesForSpender(spenderHexKey: string): Note[] {
     const result: Note[] = [];
     this.notesEncrypted.map(noteToDecrypt => {
-      const note = noteToDecrypt
-        .takeReference()
-        .decryptNoteForOwner(spenderHexKey);
+      const note = noteToDecrypt.decryptNoteForSpender(spenderHexKey);
       if (note) {
-        result.push(new Note(note));
+        result.push(note);
       }
     });
     return result;

@@ -1,6 +1,6 @@
 import { RpcTcpClient } from './tcpClient';
 import { SocketRpcClient, MESSAGE_DELIMITER } from '../interface';
-import * as tls from 'tls';
+import tls from 'tls';
 
 export class RpcTlsClient extends RpcTcpClient {
   async request(message: SocketRpcClient): Promise<string> {

@@ -9,7 +9,7 @@ import {
   SendTransactionRequest,
   SocketRpcResponseSchema,
 } from '../interface';
-import { YupUtils } from '../utils/yup';
+import { YupUtils } from '../../utils';
 
 export enum RpcServiceProtocol {
   tcp = 'TCP',

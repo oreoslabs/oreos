@@ -1,2 +1,9 @@
-export { RpcService } from './service';
-export { Wallet } from './wallet';
+export { RpcService, RpcTcpClient, RpcTlsClient } from './rpcProvider';
+export {
+  Account,
+  createAccount,
+  importAccount,
+  Transaction,
+  NoteEncrypted,
+  Note,
+} from './wallet';

@@ -1,4 +1,4 @@
-import * as net from 'net';
+import net from 'net';
 import { YupUtils } from '../../utils';
 import { RpcClient } from './client';
 import {

@@ -19,16 +19,16 @@ An ironfish provider implementation and utilities in TypeScript.
 - getStatus
 - sendTransaction
 
-**Usage:**
+**Basic Rpc Usage:**
 
 ```typescript
-const tcpServer = new RpcService(ip, port, rpcAuthToken, 'TCP') // communication with rpc server over tcp
-const tlsServer = new RpcService(ip, port, rpcAuthToken, 'TLS') // communication with rpc server over tls
-```
+import { RpcService, RpcTcpClient, RpcTlsClient } from 'oreos';
 
-##### getBalance
+// communication with rpc server over tcp
+const tcpProvider = new RpcService(ip, port, rpcAuthToken, 'TCP');
+// communication with rpc server over tls
+const tlsProvider = new RpcService(ip, port, rpcAuthToken, 'TLS');
 
-```typescript
 type GetBalanceRequest = {
   account?: string;
   minimumBlockConfirmations?: number;
@@ -48,130 +48,44 @@ const getBalanceRequest: GetBalanceRequest = {
   minimumBlockConfirmations: 12,
 };
 
-const response: GetBalanceResponse = await server.getBalance(getBalanceRequest);
+// get balance with tcp/tls provider
+const response: GetBalanceResponse = await tcpProvider.getBalance(getBalanceRequest);
 ```
 
-##### getTransaction
+**Advanced:**
+
+As shown above, only part of rpc methods are supported by Oreos rpc service component. Therefore, Oreos provides another
+way to perform rpc request.
 
 ```typescript
-type GetAccountTransactionRequest = {
-  account?: string;
-  hash: string;
-};
-type GetAccountTransactionResponse = {
-  account: string;
-  transaction: {
-    status: string;
-    isMinersFee: boolean;
-    fee: string;
-    notesCount: number;
-    spendsCount: number;
-    notes: {
-      value: string;
-      memo: string;
-      spent: boolean;
-    }[];
-  } | null;
-};
+import { RpcTcpClient, RpcTlsClient } from 'oreos';
 
-const getAccountTransactionRequest: GetAccountTransactionRequest = {
+const tcpClient = new RpcTcpClient(ip, port, rpcAuthToken);
+const tlsClient = new RpcTlsClient(ip, port, rpcAuthToken);
+
+// to perform getBalance
+const getBalanceRequest: GetBalanceRequest = {
   account: 'default',
-  hash: '0xxxxxxxx',
+  minimumBlockConfirmations: 12,
 };
-
-const response: GetAccountTransactionResponse = await server.getTransaction(getAccountTransactionRequest);
+const response = await tlsClient.send("account/getBalance", getBalanceRequest);
 ```
 
-##### getBlockInfo
+Please refer to [HowToRpc.md](/docs/HowToRpc.md) for more details about rpc.
+
+**Account & Transaction:**
+
+`CreateAccount`, `ImportAccount` and `Transaction` based components are supported.
 
 ```typescript
-type GetBlockInfoRequest = {
-  search?: string;
-  hash?: string;
-  sequence?: number;
-};
-type GetBlockInfoResponse = {
-  block: {
-    graffiti: string;
-    difficulty: string;
-    hash: string;
-    previousBlockHash: string;
-    sequence: number;
-    timestamp: number;
-    transactions: {
-      fee: string;
-      hash: string;
-      signature: string;
-      notes: number;
-      spends: number;
-    }[];
-  };
-  metadata: {
-    main: boolean;
-  };
-};
+import {
+  Account,
+  createAccount,
+  importAccount,
+} from 'oreos';
 
-const getBlockInfoRequest: GetBlockInfoRequest = {
-  sequence: 10000,
-};
-
-const response = await server.getBlockInfo(getBlockInfoRequest);
+const newAccount: Account = createAccount(accountName);
+const importedAccount: Account = importAccount(newAccount);
 ```
 
-##### getFees
-
-```typescript
-type GetFeesRequest = {
-  numOfBlocks: number;
-};
-type GetFeesResponse = {
-  startBlock: number;
-  endBlock: number;
-  p25: number;
-  p50: number;
-  p75: number;
-};
-
-const getFeesRequest: GetFeesRequest = {
-  numOfBlocks: 10,
-};
-
-const response = await server.getFees(getFeesRequest);
-```
-
-##### sendTransaction
-
-```typescript
-type SendTransactionRequest = {
-  fromAccountName: string;
-  receives: {
-    publicAddress: string;
-    amount: string;
-    memo: string;
-  }[];
-  fee: string;
-  expirationSequence?: number | null;
-  expirationSequenceDelta?: number | null;
-};
-type SendTransactionResponse = {
-  receives: {
-    publicAddress: string;
-    amount: string;
-    memo: string;
-  }[];
-  fromAccountName: string;
-  hash: string;
-};
-
-const sendTransactionRequest: SendTransactionRequest = {
-  fromAccountName: 'default',
-  receives: [{
-    publicAddress: '0xxxx0',
-    amount: '100000',
-    memo: 'oreos',
-  }],
-  fee: '100',
-};
-
-const response = await server.sendTransaction(sendTransactionRequest);
-```
+Please refer to [HowToWallet.md](/docs/HowToWallet.md) for more details about wallet.

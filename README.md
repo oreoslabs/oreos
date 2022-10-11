@@ -54,7 +54,8 @@ const response: GetBalanceResponse = await tcpProvider.getBalance(getBalanceRequ
 
 **Advanced:**
 
-As shown above, only part of rpc methods are supported by Oreos rpc service component. Therefore, Oreos provides another way to perform rpc request.
+As shown above, only part of rpc methods are supported by Oreos rpc service component. Therefore, Oreos provides another
+way to perform rpc request.
 
 ```typescript
 import { RpcTcpClient, RpcTlsClient } from 'oreos';

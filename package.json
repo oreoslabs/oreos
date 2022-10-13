@@ -1,10 +1,10 @@
 {
   "name": "oreos",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Ironfish provider",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hairtail/oreos.git"
+    "url": "git+https://github.com/oreoslabs/oreos.git"
   },
   "private": false,
   "author": "@oreos",

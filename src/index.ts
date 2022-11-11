@@ -6,4 +6,5 @@ export {
   Transaction,
   NoteEncrypted,
   Note,
+  isValidPublicAddress,
 } from './wallet';

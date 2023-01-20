@@ -26,9 +26,6 @@ const importedAccount: Account = importAccount(
   {
     name: 'helloAccount',
     spendingKey: 'mySpendingKey',
-    incomingViewKey: 'myIncomingViewKey',
-    outgoingViewKey: 'myOutgoingViewKey',
-    publicAddress: 'myPublicAddress',
   });
 
 // Transaction signature: 
@@ -43,5 +40,7 @@ const decryptedNotes = transaction.decryptNotesForSpender(importedAccount.outgoi
 for (const note of decryptedNotes) {
   const value = note.value();
   const memo = note.memo();
+  const assetId = note.assetId();
+  const sender = note.sender();
 }
 ```

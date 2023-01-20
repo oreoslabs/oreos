@@ -1,4 +1,10 @@
-import { NoteEncrypted as NativeNoteEncrypted } from '@ironfish/rust-nodejs';
+import {
+  ENCRYPTED_NOTE_LENGTH,
+  ENCRYPTED_NOTE_PLAINTEXT_LENGTH,
+  NOTE_ENCRYPTION_KEY_LENGTH,
+  NoteEncrypted as NativeNoteEncrypted,
+  PROOF_LENGTH,
+} from '@ironfish/rust-nodejs';
 import bufio from 'bufio';
 import { Note } from './note';
 
@@ -21,16 +27,13 @@ export class NoteEncrypted {
     // ephemeral public key
     reader.seek(32);
     // encrypted note
-    reader.seek(83);
-    // aead MAC
-    reader.seek(16);
+    reader.seek(ENCRYPTED_NOTE_PLAINTEXT_LENGTH);
+
     // note encryption keys
-    reader.seek(64);
-    // aead MAC
-    reader.seek(16);
+    reader.seek(NOTE_ENCRYPTION_KEY_LENGTH);
 
     // total serialized size: 192 (proof from transaction)
-    // + 32 + 32 + 32 + 83 + 16 + 64 + 16 = 467 bytes
+    // + 32 + 32 + 32 + 104 + 16 + 64 + 16 = 488 bytes
   }
 
   takeReference(): NativeNoteEncrypted {

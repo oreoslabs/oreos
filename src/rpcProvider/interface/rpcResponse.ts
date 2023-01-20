@@ -1,31 +1,45 @@
 export type GetBalanceResponse = {
   account: string;
+  assetId: string;
   confirmed: string;
-  pending: string;
-  pendingCount: number;
   unconfirmed: string;
   unconfirmedCount: number;
-  minimumBlockConfirmations: number;
+  confirmations: number;
+  blockHash: string | null;
+  sequence: number | null;
+};
+
+export type RpcAccountDecryptedNote = {
+  owner: boolean;
+  value: string;
+  assetId: string;
+  assetName: string;
+  memo: string;
+  sender: string;
+  spent: boolean;
 };
 
 export type GetAccountTransactionResponse = {
   account: string;
   transaction: {
+    hash: string;
     status: string;
-    isMinersFee: boolean;
+    type: string;
     fee: string;
+    blockHash?: string;
+    blockSequence?: number;
     notesCount: number;
     spendsCount: number;
-    notes: {
-      value: string;
-      memo: string;
-      spent: boolean;
-    }[];
+    mintsCount: number;
+    burnsCount: number;
+    timestamp: number;
+    notes: RpcAccountDecryptedNote[];
+    assetBalanceDeltas: { assetId: string; delta: string }[];
   } | null;
 };
 
 interface Operation {
-  operation_identifier: { index: number; network_index: number };
+  operation_id: { index: number; network_index: number };
   type: string;
 }
 
@@ -38,7 +52,7 @@ interface Spend {
 }
 
 interface Transaction {
-  transaction_identifier: { hash: string };
+  transaction_id: { hash: string };
   operations: Operation[];
   metadata: {
     size: number;
@@ -92,12 +106,10 @@ export interface ChainInfo {
 
 export type GetChainInfoResponse = ChainInfo;
 
-export type GetFeesResponse = {
-  startBlock: number;
-  endBlock: number;
-  p25: number;
-  p50: number;
-  p75: number;
+export type EstimateFeeResponse = {
+  low: string;
+  medium: string;
+  high: string;
 };
 
 export type SendTransactionResponse = {
@@ -105,6 +117,7 @@ export type SendTransactionResponse = {
     publicAddress: string;
     amount: string;
     memo: string;
+    assetId?: string;
   }[];
   fromAccountName: string;
   hash: string;

@@ -15,7 +15,6 @@ An ironfish provider implementation and utilities in TypeScript.
 - getBlock
 - getBlockInfo
 - getChainInfo
-- getFees
 - getStatus
 - sendTransaction
 
@@ -31,21 +30,24 @@ const tlsProvider = new RpcService(ip, port, rpcAuthToken, 'TLS');
 
 type GetBalanceRequest = {
   account?: string;
-  minimumBlockConfirmations?: number;
+  assetId?: string;
+  confirmations?: number;
 };
 type GetBalanceResponse = {
-  account: string;
-  confirmed: string;
-  pending: string;
-  pendingCount: number;
-  unconfirmed: string;
-  unconfirmedCount: number;
-  minimumBlockConfirmations: number;
+  account: string
+  balances: {
+    assetId: string
+    confirmed: string
+    unconfirmed: string
+    unconfirmedCount: number
+    blockHash: string | null
+    sequence: number | null
+  }[]
 };
 
 const getBalanceRequest: GetBalanceRequest = {
   account: 'default',
-  minimumBlockConfirmations: 12,
+  confirmations: 2,
 };
 
 // get balance with tcp/tls provider
@@ -66,9 +68,9 @@ const tlsClient = new RpcTlsClient(ip, port, rpcAuthToken);
 // to perform getBalance
 const getBalanceRequest: GetBalanceRequest = {
   account: 'default',
-  minimumBlockConfirmations: 12,
+  confirmations: 2,
 };
-const response = await tlsClient.send("account/getBalance", getBalanceRequest);
+const response = await tlsClient.send("wallet/getBalance", getBalanceRequest);
 ```
 
 Please refer to [HowToRpc.md](/docs/HowToRpc.md) for more details about rpc.
@@ -85,7 +87,7 @@ import {
 } from 'oreos';
 
 const newAccount: Account = createAccount(accountName);
-const importedAccount: Account = importAccount(newAccount);
+const importedAccount: Account = importAccount(newAccount.name, newAccount.spendingKey);
 ```
 
 Please refer to [HowToWallet.md](/docs/HowToWallet.md) for more details about wallet.

@@ -1,6 +1,7 @@
 export type GetBalanceRequest = {
   account?: string;
-  minimumBlockConfirmations?: number;
+  assetId?: string;
+  confirmations?: number;
 };
 
 export type GetAccountTransactionRequest = {
@@ -21,8 +22,13 @@ export type GetBlockInfoRequest = {
 
 export type GetChainInfoRequest = Record<string, never> | undefined;
 
-export type GetFeesRequest = {
-  numOfBlocks: number;
+export type EstimateFeeRequest = {
+  fromAccountName: string;
+  receives: {
+    publicAddress: string;
+    amount: string;
+    memo: string;
+  }[];
 };
 
 export type SendTransactionRequest = {
@@ -31,8 +37,9 @@ export type SendTransactionRequest = {
     publicAddress: string;
     amount: string;
     memo: string;
+    assetId?: string;
   }[];
   fee: string;
-  expirationSequence?: number | null;
-  expirationSequenceDelta?: number | null;
+  expiration?: number | null;
+  expirationDelta?: number | null;
 };

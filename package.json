@@ -1,6 +1,6 @@
 {
   "name": "oreos",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "Ironfish provider",
   "repository": {
     "type": "git",
@@ -9,18 +9,20 @@
   "private": false,
   "author": "@oreos",
   "main": "lib/index.js",
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "format": "prettier --write 'src/**/*.ts'"
   },
   "dependencies": {
-    "@ironfish/rust-nodejs": "^0.1.14",
+    "@ironfish/rust-nodejs": "^0.1.23",
     "bufio": "1.0.7",
     "yup": "0.29.3"
   },
   "devDependencies": {
-    "@types/node": "^18.7.14",
+    "@types/node": "^18.11.18",
     "@types/yup": "0.29.10",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",

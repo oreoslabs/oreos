@@ -4,7 +4,7 @@ import {
   GetBlockRequest,
   GetBlockInfoRequest,
   GetChainInfoRequest,
-  GetFeesRequest,
+  EstimateFeeRequest,
   GetAccountTransactionRequest,
   SendTransactionRequest,
   SocketRpcResponseSchema,
@@ -48,12 +48,12 @@ export class RpcService {
   }
 
   async getBalance(getBalanceRequest: GetBalanceRequest) {
-    return await this.request('account/getBalance', getBalanceRequest);
+    return await this.request('wallet/getBalance', getBalanceRequest);
   }
 
   async getTransaction(getTransactionRequest: GetAccountTransactionRequest) {
     return await this.request(
-      'account/getAccountTransaction',
+      'wallet/getAccountTransaction',
       getTransactionRequest,
     );
   }
@@ -70,8 +70,8 @@ export class RpcService {
     return await this.request('chain/getChainInfo', getChainInfoRequest);
   }
 
-  async getFees(getFeeRequest: GetFeesRequest) {
-    return await this.request('fees/getFees', getFeeRequest);
+  async estimateFee(estimateFeeRequest: EstimateFeeRequest) {
+    return await this.request('chain/estimateFee', estimateFeeRequest);
   }
 
   async getStatus() {
@@ -79,7 +79,7 @@ export class RpcService {
   }
 
   async sendTransaction(transaction: SendTransactionRequest) {
-    return await this.request('transaction/sendTransaction', transaction);
+    return await this.request('wallet/sendTransaction', transaction);
   }
 
   async request<T>(method: string, params: T) {

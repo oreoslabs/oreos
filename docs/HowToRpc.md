@@ -7,7 +7,6 @@
 - getBlock
 - getBlockInfo
 - getChainInfo
-- getFees
 - getStatus
 - sendTransaction
 
@@ -24,112 +23,27 @@ const rpcProvider = new RpcService(ip, port, rpcAuthToken, 'TCP');
 ```typescript
 type GetBalanceRequest = {
   account?: string;
-  minimumBlockConfirmations?: number;
+  assetId?: string;
+  confirmations?: number;
 };
 type GetBalanceResponse = {
-  account: string;
-  confirmed: string;
-  pending: string;
-  pendingCount: number;
-  unconfirmed: string;
-  unconfirmedCount: number;
-  minimumBlockConfirmations: number;
+  account: string
+  balances: {
+    assetId: string
+    confirmed: string
+    unconfirmed: string
+    unconfirmedCount: number
+    blockHash: string | null
+    sequence: number | null
+  }[]
 };
 
 const getBalanceRequest: GetBalanceRequest = {
   account: 'default',
-  minimumBlockConfirmations: 12,
+  confirmations: 2,
 };
 
 const response: GetBalanceResponse = await rpcProvider.getBalance(getBalanceRequest);
-```
-
-##### getTransaction
-
-```typescript
-type GetAccountTransactionRequest = {
-  account?: string;
-  hash: string;
-};
-type GetAccountTransactionResponse = {
-  account: string;
-  transaction: {
-    status: string;
-    isMinersFee: boolean;
-    fee: string;
-    notesCount: number;
-    spendsCount: number;
-    notes: {
-      value: string;
-      memo: string;
-      spent: boolean;
-    }[];
-  } | null;
-};
-
-const getAccountTransactionRequest: GetAccountTransactionRequest = {
-  account: 'default',
-  hash: '0xxxxxxxx',
-};
-
-const response: GetAccountTransactionResponse = await rpcProvider.getTransaction(getAccountTransactionRequest);
-```
-
-##### getBlockInfo
-
-```typescript
-type GetBlockInfoRequest = {
-  search?: string;
-  hash?: string;
-  sequence?: number;
-};
-type GetBlockInfoResponse = {
-  block: {
-    graffiti: string;
-    difficulty: string;
-    hash: string;
-    previousBlockHash: string;
-    sequence: number;
-    timestamp: number;
-    transactions: {
-      fee: string;
-      hash: string;
-      signature: string;
-      notes: number;
-      spends: number;
-    }[];
-  };
-  metadata: {
-    main: boolean;
-  };
-};
-
-const getBlockInfoRequest: GetBlockInfoRequest = {
-  sequence: 10000,
-};
-
-const response = await rpcProvider.getBlockInfo(getBlockInfoRequest);
-```
-
-##### getFees
-
-```typescript
-type GetFeesRequest = {
-  numOfBlocks: number;
-};
-type GetFeesResponse = {
-  startBlock: number;
-  endBlock: number;
-  p25: number;
-  p50: number;
-  p75: number;
-};
-
-const getFeesRequest: GetFeesRequest = {
-  numOfBlocks: 10,
-};
-
-const response = await rpcProvider.getFees(getFeesRequest);
 ```
 
 ##### sendTransaction
@@ -141,16 +55,18 @@ type SendTransactionRequest = {
     publicAddress: string;
     amount: string;
     memo: string;
+    assetId?: string;
   }[];
   fee: string;
-  expirationSequence?: number | null;
-  expirationSequenceDelta?: number | null;
+  expiration?: number | null;
+  expirationDelta?: number | null;
 };
 type SendTransactionResponse = {
   receives: {
     publicAddress: string;
     amount: string;
     memo: string;
+    assetId?: string;
   }[];
   fromAccountName: string;
   hash: string;
@@ -161,7 +77,7 @@ const sendTransactionRequest: SendTransactionRequest = {
   receives: [{
     publicAddress: '0xxxx0',
     amount: '100000',
-    memo: 'oreos',
+    memo: 'send native oreo token',
   }],
   fee: '100',
 };
@@ -185,7 +101,7 @@ const createAccountRequest = {
   default: true
 };
 
-const response = await tlsClient.send("account/create", createAccountRequest);
+const response = await tlsClient.send("wallet/create", createAccountRequest);
 ```
 
 Refer to [rpc](https://github.com/iron-fish/ironfish/tree/master/ironfish/src/rpc/routes) for request and response

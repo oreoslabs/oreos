@@ -28,6 +28,7 @@ export class Transaction {
         result.push(note);
       }
     });
+    this.notes = result;
     return result;
   }
 
@@ -39,6 +40,7 @@ export class Transaction {
         result.push(note);
       }
     });
+    this.notes = result;
     return result;
   }
 }

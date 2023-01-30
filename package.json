@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@ironfish/rust-nodejs": "^0.1.23",
-    "bufio": "1.0.7",
+    "bufio": "1.2.0",
     "yup": "0.29.3"
   },
   "devDependencies": {

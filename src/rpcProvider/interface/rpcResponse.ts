@@ -4,6 +4,8 @@ export type GetBalanceResponse = {
   confirmed: string;
   unconfirmed: string;
   unconfirmedCount: number;
+  pending: string;
+  pendingCount: number;
   confirmations: number;
   blockHash: string | null;
   sequence: number | null;
@@ -107,13 +109,13 @@ export interface ChainInfo {
 export type GetChainInfoResponse = ChainInfo;
 
 export type EstimateFeeResponse = {
-  low: string;
-  medium: string;
-  high: string;
+  slow?: string;
+  average?: string;
+  fast?: string;
 };
 
 export type SendTransactionResponse = {
-  receives: {
+  outputs: {
     publicAddress: string;
     amount: string;
     memo: string;

@@ -22,18 +22,20 @@ export type GetBlockInfoRequest = {
 
 export type GetChainInfoRequest = Record<string, never> | undefined;
 
-export type EstimateFeeRequest = {
-  fromAccountName: string;
-  receives: {
-    publicAddress: string;
-    amount: string;
-    memo: string;
-  }[];
+export type PriorityLevel = typeof PRIORITY_LEVELS[number];
+export type PriorityLevelPercentiles = {
+  low: number;
+  medium: number;
+  high: number;
 };
+
+export const PRIORITY_LEVELS = ['low', 'medium', 'high'] as const;
+
+export type EstimateFeeRatesRequest = { priority?: PriorityLevel } | undefined;
 
 export type SendTransactionRequest = {
   fromAccountName: string;
-  receives: {
+  outputs: {
     publicAddress: string;
     amount: string;
     memo: string;

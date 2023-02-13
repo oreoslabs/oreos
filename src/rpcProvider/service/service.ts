@@ -71,7 +71,7 @@ export class RpcService {
   }
 
   async estimateFee(estimateFeeRequest: EstimateFeeRequest) {
-    return await this.request('chain/estimateFee', estimateFeeRequest);
+    return await this.request('chain/estimateFeeRates', estimateFeeRequest);
   }
 
   async getStatus() {

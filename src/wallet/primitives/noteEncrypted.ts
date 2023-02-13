@@ -1,9 +1,7 @@
 import {
-  ENCRYPTED_NOTE_LENGTH,
   ENCRYPTED_NOTE_PLAINTEXT_LENGTH,
   NOTE_ENCRYPTION_KEY_LENGTH,
   NoteEncrypted as NativeNoteEncrypted,
-  PROOF_LENGTH,
 } from '@ironfish/rust-nodejs';
 import bufio from 'bufio';
 import { Note } from './note';

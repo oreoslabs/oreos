@@ -4,7 +4,7 @@ import {
   GetBlockRequest,
   GetBlockInfoRequest,
   GetChainInfoRequest,
-  EstimateFeeRequest,
+  EstimateFeeRatesRequest,
   GetAccountTransactionRequest,
   SendTransactionRequest,
   SocketRpcResponseSchema,
@@ -70,7 +70,7 @@ export class RpcService {
     return await this.request('chain/getChainInfo', getChainInfoRequest);
   }
 
-  async estimateFee(estimateFeeRequest: EstimateFeeRequest) {
+  async estimateFee(estimateFeeRequest: EstimateFeeRatesRequest) {
     return await this.request('chain/estimateFeeRates', estimateFeeRequest);
   }
 

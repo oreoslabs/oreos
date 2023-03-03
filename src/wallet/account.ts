@@ -3,6 +3,7 @@ import { generateKey, generateKeyFromPrivateKey } from '@ironfish/rust-nodejs';
 export class Account {
   name: string;
   readonly spendingKey: string;
+  readonly viewKey: string;
   readonly incomingViewKey: string;
   readonly outgoingViewKey: string;
   publicAddress: string;
@@ -13,11 +14,13 @@ export class Account {
     outgoingViewKey: string,
     publicAddress: string,
     spendingKey: string,
+    viewKey: string,
   ) {
     this.name = name;
+    this.spendingKey = spendingKey;
+    this.viewKey = viewKey;
     this.incomingViewKey = incomingViewKey;
     this.outgoingViewKey = outgoingViewKey;
-    this.spendingKey = spendingKey;
     this.publicAddress = publicAddress;
   }
 }
@@ -26,10 +29,11 @@ export function createAccount(name: string): Account {
   const key = generateKey();
   return new Account(
     name,
-    key.incoming_view_key,
-    key.outgoing_view_key,
-    key.public_address,
-    key.spending_key,
+    key.spendingKey,
+    key.viewKey,
+    key.incomingViewKey,
+    key.outgoingViewKey,
+    key.publicAddress,
   );
 }
 
@@ -41,8 +45,9 @@ export function importAccount(toImport: {
   return new Account(
     toImport.name,
     toImport.spendingKey,
-    key.incoming_view_key,
-    key.outgoing_view_key,
-    key.public_address,
+    key.viewKey,
+    key.incomingViewKey,
+    key.outgoingViewKey,
+    key.publicAddress,
   );
 }

@@ -40,43 +40,7 @@ export type GetAccountTransactionResponse = {
   } | null;
 };
 
-interface Operation {
-  operation_id: { index: number; network_index: number };
-  type: string;
-}
-
-interface Note {
-  commitment: string;
-}
-
-interface Spend {
-  nullifier: string;
-}
-
-interface Transaction {
-  transaction_id: { hash: string };
-  operations: Operation[];
-  metadata: {
-    size: number;
-    notes: Note[];
-    spends: Spend[];
-  };
-}
-
-interface Block {
-  blockIdentifier: { index: string; hash: string };
-  parentBlockIdentifier: { index: string; hash: string };
-  timestamp: number;
-  transactions: Transaction[];
-  metadata: {
-    size: number;
-    difficulty: number;
-  };
-}
-
-export type GetBlockResponse = Block;
-
-export type GetBlockInfoResponse = {
+export type GetBlockResponse = {
   block: {
     graffiti: string;
     difficulty: string;
@@ -94,6 +58,7 @@ export type GetBlockInfoResponse = {
   };
   metadata: {
     main: boolean;
+    confirmed: boolean;
   };
 };
 
@@ -108,19 +73,14 @@ export interface ChainInfo {
 
 export type GetChainInfoResponse = ChainInfo;
 
-export type EstimateFeeResponse = {
-  slow?: string;
-  average?: string;
-  fast?: string;
+export type EstimateFeeRatesResponse = {
+  slow: string;
+  average: string;
+  fast: string;
 };
 
 export type SendTransactionResponse = {
-  outputs: {
-    publicAddress: string;
-    amount: string;
-    memo: string;
-    assetId?: string;
-  }[];
-  fromAccountName: string;
+  account: string;
   hash: string;
+  transaction: string;
 };

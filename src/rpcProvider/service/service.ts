@@ -2,7 +2,6 @@ import { RpcTcpClient, RpcTlsClient } from '../client';
 import {
   GetBalanceRequest,
   GetBlockRequest,
-  GetBlockInfoRequest,
   GetChainInfoRequest,
   EstimateFeeRatesRequest,
   GetAccountTransactionRequest,
@@ -62,15 +61,11 @@ export class RpcService {
     return await this.request('chain/getBlock', getBlockRequest);
   }
 
-  async getBlockInfo(getBlockInfoRequest: GetBlockInfoRequest) {
-    return await this.request('chain/getBlockInfo', getBlockInfoRequest);
-  }
-
   async getChainInfo(getChainInfoRequest: GetChainInfoRequest) {
     return await this.request('chain/getChainInfo', getChainInfoRequest);
   }
 
-  async estimateFee(estimateFeeRequest: EstimateFeeRatesRequest) {
+  async estimateFeeRates(estimateFeeRequest: EstimateFeeRatesRequest) {
     return await this.request('chain/estimateFeeRates', estimateFeeRequest);
   }
 

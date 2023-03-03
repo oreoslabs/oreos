@@ -12,4 +12,8 @@ export {
   Transaction,
   NoteEncrypted,
   Note,
+  isValidSpendingKey,
+  isValidIncomingViewKey,
+  isValidOutgoingViewKey,
+  isValidPublicAddress,
 } from './wallet';

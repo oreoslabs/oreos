@@ -84,3 +84,20 @@ export type SendTransactionResponse = {
   hash: string;
   transaction: string;
 };
+
+export type GetChainTransactionResponse = {
+  fee: string;
+  expiration: number;
+  notesCount: number;
+  spendsCount: number;
+  signature: string;
+  notesEncrypted: string[];
+  mints: {
+    assetId: string;
+    value: string;
+  }[];
+  burns: {
+    assetId: string;
+    value: string;
+  }[];
+};

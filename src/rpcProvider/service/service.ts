@@ -7,6 +7,7 @@ import {
   GetAccountTransactionRequest,
   SendTransactionRequest,
   SocketRpcResponseSchema,
+  GetChainTransactionRequest,
 } from '../interface';
 import { YupUtils } from '../../utils';
 
@@ -55,6 +56,10 @@ export class RpcService {
       'wallet/getAccountTransaction',
       getTransactionRequest,
     );
+  }
+
+  async getChainTransaction(getChainTx: GetChainTransactionRequest) {
+    return await this.request('chain/getTransaction', getChainTx);
   }
 
   async getBlock(getBlockRequest: GetBlockRequest) {

@@ -33,3 +33,8 @@ export type SendTransactionRequest = {
   expirationDelta?: number | null;
   confirmations?: number | null;
 };
+
+export type GetChainTransactionRequest = {
+  blockHash: string;
+  transactionHash: string;
+};

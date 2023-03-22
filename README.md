@@ -13,7 +13,6 @@ An ironfish provider implementation and utilities in TypeScript.
 - getBalance
 - getTransaction
 - getBlock
-- getBlockInfo
 - getChainInfo
 - getStatus
 - sendTransaction
@@ -34,15 +33,17 @@ type GetBalanceRequest = {
   confirmations?: number;
 };
 type GetBalanceResponse = {
-  account: string
-  balances: {
-    assetId: string
-    confirmed: string
-    unconfirmed: string
-    unconfirmedCount: number
-    blockHash: string | null
-    sequence: number | null
-  }[]
+  account: string;
+  assetId: string;
+  confirmed: string;
+  unconfirmed: string;
+  unconfirmedCount: number;
+  pending: string;
+  pendingCount: number;
+  available: string;
+  confirmations: number;
+  blockHash: string | null;
+  sequence: number | null;
 };
 
 const getBalanceRequest: GetBalanceRequest = {

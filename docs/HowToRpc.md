@@ -5,7 +5,6 @@
 - getBalance
 - getTransaction
 - getBlock
-- getBlockInfo
 - getChainInfo
 - getStatus
 - sendTransaction
@@ -27,15 +26,17 @@ type GetBalanceRequest = {
   confirmations?: number;
 };
 type GetBalanceResponse = {
-  account: string
-  balances: {
-    assetId: string
-    confirmed: string
-    unconfirmed: string
-    unconfirmedCount: number
-    blockHash: string | null
-    sequence: number | null
-  }[]
+  account: string;
+  assetId: string;
+  confirmed: string;
+  unconfirmed: string;
+  unconfirmedCount: number;
+  pending: string;
+  pendingCount: number;
+  available: string;
+  confirmations: number;
+  blockHash: string | null;
+  sequence: number | null;
 };
 
 const getBalanceRequest: GetBalanceRequest = {
@@ -50,8 +51,8 @@ const response: GetBalanceResponse = await rpcProvider.getBalance(getBalanceRequ
 
 ```typescript
 type SendTransactionRequest = {
-  fromAccountName: string;
-  receives: {
+  account: string;
+  outputs: {
     publicAddress: string;
     amount: string;
     memo: string;
@@ -62,19 +63,14 @@ type SendTransactionRequest = {
   expirationDelta?: number | null;
 };
 type SendTransactionResponse = {
-  receives: {
-    publicAddress: string;
-    amount: string;
-    memo: string;
-    assetId?: string;
-  }[];
-  fromAccountName: string;
+  account: string;
   hash: string;
+  transaction: string;
 };
 
 const sendTransactionRequest: SendTransactionRequest = {
-  fromAccountName: 'default',
-  receives: [{
+  account: 'default',
+  outputs: [{
     publicAddress: '0xxxx0',
     amount: '100000',
     memo: 'send native oreo token',

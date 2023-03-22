@@ -48,6 +48,8 @@ export type GetBlockResponse = {
     previousBlockHash: string;
     sequence: number;
     timestamp: number;
+    noteSize: number;
+    noteCommitment: string;
     transactions: {
       fee: string;
       hash: string;

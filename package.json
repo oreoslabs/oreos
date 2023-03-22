@@ -17,7 +17,7 @@
     "format": "prettier --write 'src/**/*.ts'"
   },
   "dependencies": {
-    "@ironfish/rust-nodejs": "0.1.27",
+    "@ironfish/rust-nodejs": "0.1.29",
     "bufio": "1.2.0",
     "yup": "0.29.3"
   },

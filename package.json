@@ -1,6 +1,6 @@
 {
   "name": "oreos",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Ironfish provider",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "format": "prettier --write 'src/**/*.ts'"
   },
   "dependencies": {
-    "@ironfish/rust-nodejs": "0.1.29",
+    "@ironfish/rust-nodejs": "0.1.31",
     "bufio": "1.2.0",
     "yup": "0.29.3"
   },

@@ -75,20 +75,3 @@ const response = await tlsClient.send("wallet/getBalance", getBalanceRequest);
 ```
 
 Please refer to [HowToRpc.md](/docs/HowToRpc.md) for more details about rpc.
-
-**Account & Transaction:**
-
-`CreateAccount`, `ImportAccount` and `Transaction` based components are supported.
-
-```typescript
-import {
-  Account,
-  createAccount,
-  importAccount,
-} from 'oreos';
-
-const newAccount: Account = createAccount(accountName);
-const importedAccount: Account = importAccount(newAccount.name, newAccount.spendingKey);
-```
-
-Please refer to [HowToWallet.md](/docs/HowToWallet.md) for more details about wallet.

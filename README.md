@@ -29,7 +29,7 @@ An ironfish provider implementation and utilities in TypeScript.
 ```typescript
 import { RpcService } from 'oreos';
 
-const provider = new RpcService(ip, port);
+const provider = new RpcService(baseUrl);
 
 type GetBalanceRequest = {
   account?: string;

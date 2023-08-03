@@ -106,7 +106,7 @@ export class RpcService {
     );
   }
 
-  private async request<T>(
+  async request<T>(
     method: string,
     params: any,
     options: { timeout?: number } = {},

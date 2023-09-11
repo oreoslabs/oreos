@@ -39,6 +39,7 @@ export type GetBalancesResponse = {
     assetId: string;
     assetName: string;
     assetCreator: string;
+    assetOwner: string;
     assetVerification: AssetVerification;
     confirmed: string;
     unconfirmed: string;
@@ -160,12 +161,14 @@ export type GetAssetResponse = {
   name: string;
   nonce: number;
   creator: string;
+  owner: string;
   supply: string;
 };
 
 export type BroadcastTransactionResponse = {
   hash: string;
   accepted: boolean;
+  broadcasted: boolean;
 };
 
 export type GetBlockResponse = {
@@ -184,6 +187,7 @@ export type GetBlockResponse = {
       signature: string;
       notes: number;
       spends: number;
+      serialized?: string;
     }[];
   };
   metadata: {
@@ -220,14 +224,12 @@ export type GetTransactionResponse = {
   mints: {
     assetId: string;
     value: string;
+    name: string;
+    metadata: string;
   }[];
   burns: {
     assetId: string;
     value: string;
   }[];
   blockHash: string;
-  /**
-   * @deprecated Please use `notes` instead
-   */
-  notesEncrypted: string[];
 };

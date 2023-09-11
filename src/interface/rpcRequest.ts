@@ -102,6 +102,7 @@ export type GetBlockRequest = {
   hash?: string;
   sequence?: number;
   confirmations?: number;
+  serialized?: boolean;
 };
 
 export type GetChainInfoRequest = Record<string, never> | undefined;

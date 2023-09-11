@@ -1,6 +1,6 @@
 {
   "name": "oreos",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Ironfish rpc provider",
   "repository": {
     "type": "git",

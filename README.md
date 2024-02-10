@@ -23,6 +23,7 @@ An ironfish provider implementation and utilities in TypeScript.
 - getBlock
 - getChainInfo
 - getTransaction
+- getNoteWitness
 
 **Rpc Usage:**
 
@@ -62,4 +63,16 @@ const getBalanceRequest: GetBalanceRequest = {
 };
 
 const response: GetBalanceResponse = await provider.getBalance(getBalanceRequest);
+```
+
+**Advanced Usage:**
+
+```typescript
+import { RpcService } from 'oreos';
+
+const provider = new RpcService(baseUrl);
+
+const route = 'chain';
+const method = 'getNetworkInfo';
+const response: T = await provider.request<T>(`${route}/${method}`, params); 
 ```

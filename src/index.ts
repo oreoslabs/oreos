@@ -20,6 +20,8 @@ import {
   GetBlockResponse,
   GetChainInfoRequest,
   GetChainInfoResponse,
+  GetNoteWitnessRequest,
+  GetNoteWitnessResponse,
   GetTransactionRequest,
   GetTransactionResponse,
   MintAssetRequest,
@@ -102,6 +104,13 @@ export class RpcService {
   async getTransaction(req: GetTransactionRequest) {
     return await this.request<GetTransactionResponse>(
       'chain/getTransaction',
+      req,
+    );
+  }
+
+  async getNoteWitness(req: GetNoteWitnessRequest) {
+    return await this.request<GetNoteWitnessResponse>(
+      'chain/getNoteWitness',
       req,
     );
   }

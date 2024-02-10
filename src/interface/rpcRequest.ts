@@ -10,8 +10,9 @@ export type GetBalancesRequest = {
 };
 
 export type MintAssetRequest = {
-  account: string;
-  fee: string;
+  account?: string;
+  fee?: string;
+  feeRate?: string;
   value: string;
   assetId?: string;
   expiration?: number;
@@ -19,12 +20,14 @@ export type MintAssetRequest = {
   confirmations?: number;
   metadata?: string;
   name?: string;
+  transferOwnershipTo?: string;
 };
 
 export type BurnAssetRequest = {
-  account: string;
+  account?: string;
   assetId: string;
-  fee: string;
+  fee?: string;
+  feeRate?: string;
   value: string;
   expiration?: number;
   expirationDelta?: number;
@@ -32,7 +35,7 @@ export type BurnAssetRequest = {
 };
 
 export type CreateTransactionRequest = {
-  account: string;
+  account?: string;
   outputs: {
     publicAddress: string;
     amount: string;
@@ -44,6 +47,7 @@ export type CreateTransactionRequest = {
     name?: string;
     metadata?: string;
     value: string;
+    transferOwnershipTo?: string;
   }[];
   burns?: {
     assetId: string;
@@ -58,7 +62,7 @@ export type CreateTransactionRequest = {
 };
 
 export type SendTransactionRequest = {
-  account: string;
+  account?: string;
   outputs: {
     publicAddress: string;
     amount: string;
@@ -75,7 +79,10 @@ export type SendTransactionRequest = {
 export type GetAccountTransactionRequest = {
   hash: string;
   account?: string;
+  serialized?: boolean;
   confirmations?: number;
+  notes?: boolean;
+  spends?: boolean;
 };
 
 export type GetAccountTransactionsRequest = {
@@ -84,9 +91,11 @@ export type GetAccountTransactionsRequest = {
   sequence?: number;
   limit?: number;
   offset?: number;
+  reverse?: boolean;
   confirmations?: number;
   notes?: boolean;
   spends?: boolean;
+  serialized?: boolean;
 };
 
 export type GetAssetRequest = {
@@ -110,4 +119,9 @@ export type GetChainInfoRequest = Record<string, never> | undefined;
 export type GetTransactionRequest = {
   transactionHash: string;
   blockHash?: string;
+};
+
+export type GetNoteWitnessRequest = {
+  index: number;
+  confirmations?: number;
 };

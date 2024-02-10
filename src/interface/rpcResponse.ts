@@ -21,7 +21,6 @@ export enum TransactionType {
 export type GetBalanceResponse = {
   account: string;
   assetId: string;
-  assetVerification: AssetVerification;
   confirmed: string;
   unconfirmed: string;
   unconfirmedCount: number;
@@ -31,16 +30,16 @@ export type GetBalanceResponse = {
   confirmations: number;
   blockHash: string | null;
   sequence: number | null;
+  /**
+   * @deprecated Please use getAsset endpoint to get this information
+   * */
+  assetVerification: AssetVerification;
 };
 
 export type GetBalancesResponse = {
   account: string;
   balances: {
     assetId: string;
-    assetName: string;
-    assetCreator: string;
-    assetOwner: string;
-    assetVerification: AssetVerification;
     confirmed: string;
     unconfirmed: string;
     unconfirmedCount: number;
@@ -49,21 +48,148 @@ export type GetBalancesResponse = {
     available: string;
     blockHash: string | null;
     sequence: number | null;
+    /**
+     * @deprecated Please use getAsset endpoint to get this information
+     */
+    assetName: string;
+    /**
+     * @deprecated Please use getAsset endpoint to get this information
+     */
+    assetCreator: string;
+    /**
+     * @deprecated Please use getAsset endpoint to get this information
+     * */
+    assetOwner: string;
+    /**
+     * @deprecated Please use getAsset endpoint to get this information
+     * */
+    assetVerification: AssetVerification;
   }[];
 };
 
-export type MintAssetResponse = {
+export type RpcMint = {
   assetId: string;
-  hash: string;
-  name: string;
   value: string;
+  transferOwnershipTo?: string;
+  /**
+   * @deprecated Please use assetId instead
+   */
+  id: string;
+  /**
+   * @deprecated Please use getAsset endpoint to get this information
+   */
+  assetName: string;
+  /**
+   * @deprecated Please use getAsset endpoint to get this information
+   */
+  metadata: string;
+  /**
+   * @deprecated Please use getAsset endpoint to get this information
+   */
+  name: string;
+  /**
+   * @deprecated Please use getAsset endpoint to get this information
+   */
+  creator: string;
 };
 
-export type BurnAssetResponse = {
+export type RpcBurn = {
   assetId: string;
-  hash: string;
-  name: string;
   value: string;
+  /**
+   * @deprecated Please use getAsset endpoint to get this information
+   */
+  id: string;
+  /**
+   * @deprecated Please use getAsset endpoint to get this information
+   */
+  assetName: string;
+};
+
+export type RpcAsset = {
+  id: string;
+  name: string;
+  nonce: number;
+  owner: string;
+  creator: string;
+  metadata: string;
+  createdTransactionHash: string;
+  verification: AssetVerification;
+  supply?: string;
+  /**
+   * @deprecated query for the transaction to find it's status
+   */
+  status: string;
+};
+
+export type RpcAccountAssetBalanceDelta = {
+  assetId: string;
+  delta: string;
+  /**
+   * @deprecated Please use the getAsset RPC to fetch additional asset details
+   */
+  assetName: string;
+};
+
+export type RpcWalletTransaction = {
+  hash: string;
+  fee: string;
+  signature: string;
+  expiration: number;
+  timestamp: number;
+  submittedSequence: number;
+  type: TransactionType;
+  status: TransactionStatus;
+  assetBalanceDeltas: RpcAccountAssetBalanceDelta[];
+  burns: RpcBurn[];
+  mints: RpcMint[];
+  serialized?: string;
+  blockHash?: string;
+  blockSequence?: number;
+  notes?: RpcWalletNote[];
+  spends?: RpcSpend[];
+  /**
+   * @deprecated Please use `notes.length` instead
+   */
+  notesCount: number;
+  /**
+   * @deprecated Please use `spends.length` instead
+   */
+  spendsCount: number;
+  /**
+   * @deprecated Please use `mints.length` instead
+   */
+  mintsCount: number;
+  /**
+   * @deprecated Please use `burns.length` instead
+   */
+  burnsCount: number;
+  /**
+   * @deprecated This is configuarable via the node config, a setting that the user can pass, so doesn't need to be returned
+   */
+  confirmations: number;
+};
+
+export type MintAssetResponse = RpcMint & {
+  asset: RpcAsset;
+  transaction: RpcWalletTransaction;
+  /**
+   * @deprecated Please use `transaction.hash` instead
+   */
+  hash: string;
+};
+
+export type BurnAssetResponse = RpcBurn & {
+  asset: RpcAsset;
+  transaction: RpcWalletTransaction;
+  /**
+   * @deprecated Please use `transaction.hash` instead
+   */
+  hash: string;
+  /**
+   * @deprecated Please use `asset.name` instead
+   */
+  name: string;
 };
 
 export type CreateTransactionResponse = {
@@ -106,64 +232,12 @@ export type RpcWalletNote = {
 
 export type GetAccountTransactionResponse = {
   account: string;
-  transaction: {
-    hash: string;
-    status: TransactionStatus;
-    type: TransactionType;
-    confirmations: number;
-    fee: string;
-    blockHash?: string;
-    blockSequence?: number;
-    notesCount: number;
-    spendsCount: number;
-    mintsCount: number;
-    burnsCount: number;
-    timestamp: number;
-    submittedSequence: number;
-    assetBalanceDeltas: {
-      assetId: string;
-      assetName: string;
-      delta: string;
-    }[];
-    notes: RpcWalletNote[];
-    spends: RpcSpend[];
-  } | null;
+  transaction: RpcWalletTransaction | null;
 };
 
-export type GetAccountTransactionsResponse = {
-  hash: string;
-  status: TransactionStatus;
-  type: TransactionType;
-  confirmations: number;
-  fee: string;
-  blockHash?: string;
-  blockSequence?: number;
-  notesCount: number;
-  spendsCount: number;
-  mintsCount: number;
-  burnsCount: number;
-  expiration: number;
-  timestamp: number;
-  submittedSequence: number;
-  assetBalanceDeltas: {
-    assetId: string;
-    assetName: string;
-    delta: string;
-  }[];
-  notes?: RpcWalletNote[];
-  spends?: RpcSpend[];
-};
+export type GetAccountTransactionsResponse = RpcWalletTransaction;
 
-export type GetAssetResponse = {
-  createdTransactionHash: string;
-  id: string;
-  metadata: string;
-  name: string;
-  nonce: number;
-  creator: string;
-  owner: string;
-  supply: string;
-};
+export type GetAssetResponse = RpcAsset;
 
 export type BroadcastTransactionResponse = {
   hash: string;
@@ -171,25 +245,54 @@ export type BroadcastTransactionResponse = {
   broadcasted: boolean;
 };
 
+export type RpcBlockHeader = {
+  hash: string;
+  sequence: number;
+  previousBlockHash: string;
+  difficulty: string;
+  noteCommitment: string;
+  transactionCommitment: string;
+  target: string;
+  randomness: string;
+  timestamp: number;
+  graffiti: string;
+  work: string;
+  noteSize: number | null;
+  /**
+   * @deprecated Please use previousBlockHash instead
+   */
+  previous: string;
+};
+
+export type RpcEncryptedNote = {
+  hash: string;
+  serialized: string;
+  /**
+   * @deprecated Please use hash instead
+   */
+  commitment: string;
+};
+
+export type RpcTransaction = {
+  hash: string;
+  size: number;
+  fee: number;
+  expiration: number;
+  signature: string;
+  notes: RpcEncryptedNote[];
+  spends: RpcSpend[];
+  mints: RpcMint[];
+  burns: RpcBurn[];
+  serialized?: string;
+};
+
+export type RpcBlock = RpcBlockHeader & {
+  size: number;
+  transactions: RpcTransaction[];
+};
+
 export type GetBlockResponse = {
-  block: {
-    graffiti: string;
-    difficulty: string;
-    hash: string;
-    previousBlockHash: string;
-    sequence: number;
-    timestamp: number;
-    noteSize: number;
-    noteCommitment: string;
-    transactions: {
-      fee: string;
-      hash: string;
-      signature: string;
-      notes: number;
-      spends: number;
-      serialized?: string;
-    }[];
-  };
+  block: RpcBlock;
   metadata: {
     main: boolean;
     confirmed: boolean;
@@ -212,24 +315,28 @@ export type RpcNote = {
   serialized: string;
 };
 
-export type GetTransactionResponse = {
-  fee: string;
-  expiration: number;
+export type GetTransactionResponse = RpcTransaction & {
   noteSize: number;
-  notesCount: number;
-  spendsCount: number;
-  signature: string;
-  spends: RpcSpend[];
-  notes: RpcNote[];
-  mints: {
-    assetId: string;
-    value: string;
-    name: string;
-    metadata: string;
-  }[];
-  burns: {
-    assetId: string;
-    value: string;
-  }[];
   blockHash: string;
+  /**
+   * @deprecated Please use `notes.length` instead
+   */
+  notesCount: number;
+  /**
+   * @deprecated Please use `spends.length` instead
+   */
+  spendsCount: number;
+  /**
+   * @deprecated Please use `notes` instead
+   */
+  notesEncrypted: string[];
+};
+
+export type GetNoteWitnessResponse = {
+  treeSize: number;
+  rootHash: string;
+  authPath: {
+    side: 'Left' | 'Right';
+    hashOfSibling: string;
+  }[];
 };

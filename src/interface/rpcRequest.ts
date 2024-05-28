@@ -40,6 +40,7 @@ export type CreateTransactionRequest = {
     publicAddress: string;
     amount: string;
     memo: string;
+    memoHex?: string;
     assetId?: string;
   }[];
   mints?: {
